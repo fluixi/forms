@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-valibot",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Valibot schema adapter for @fluixi/forms-core.",
   "type": "module",
   "main": "./dist/index.js",

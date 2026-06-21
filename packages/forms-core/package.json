@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Reactive forms core (FormControl/FormGroup/FormArray) for fine-grained signal frameworks.",
   "type": "module",
   "main": "./dist/index.js",
