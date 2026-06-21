@@ -1,0 +1,34 @@
+{
+  "name": "@fluixi/forms-framework",
+  "version": "0.0.0",
+  "description": "JSX bindings + Field component for @fluixi/forms-core.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@fluixi/forms-core": "workspace:*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluixi/forms.git",
+    "directory": "packages/forms-framework"
+  }
+}

@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main, next]
+  pull_request:
+    branches: [main, next]
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com/
+          scope: '@fluixi'
+
+      # PACKAGES_TOKEN = PAT with read:packages for @fluixi (pulls @fluixi/reactive@next
+      # from GitHub Packages). Falls back to GITHUB_TOKEN.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Build packages
+        run: pnpm run build
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Typecheck
+        run: pnpm run typecheck

@@ -1,0 +1,38 @@
+{
+  "name": "@fluixi/forms-core",
+  "version": "0.0.0",
+  "description": "Reactive forms core (FormControl/FormGroup/FormArray) for fine-grained signal frameworks.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluixi/forms.git",
+    "directory": "packages/forms-core"
+  },
+  "peerDependencies": {
+    "@fluixi/reactive": "*"
+  },
+  "devDependencies": {
+    "@fluixi/reactive": "next"
+  }
+}
