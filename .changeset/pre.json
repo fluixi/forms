@@ -1,0 +1,13 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "@fluixi/forms": "0.2.0",
+    "@fluixi/forms-core": "0.2.0",
+    "@fluixi/forms-devtools": "0.2.0",
+    "@fluixi/forms-framework": "0.2.0",
+    "@fluixi/forms-valibot": "0.2.0",
+    "@fluixi/forms-zod": "0.2.0"
+  },
+  "changesets": []
+}
