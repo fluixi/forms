@@ -18,6 +18,24 @@ importers:
         specifier: ^2.1.0
         version: 2.1.9
 
+  packages/forms:
+    dependencies:
+      '@fluixi/forms-core':
+        specifier: workspace:*
+        version: link:../forms-core
+      '@fluixi/forms-devtools':
+        specifier: workspace:*
+        version: link:../forms-devtools
+      '@fluixi/forms-framework':
+        specifier: workspace:*
+        version: link:../forms-framework
+      '@fluixi/forms-valibot':
+        specifier: workspace:*
+        version: link:../forms-valibot
+      '@fluixi/forms-zod':
+        specifier: workspace:*
+        version: link:../forms-zod
+
   packages/forms-core:
     devDependencies:
       '@fluixi/reactive':

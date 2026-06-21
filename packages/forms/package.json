@@ -1,0 +1,59 @@
+{
+  "name": "@fluixi/forms",
+  "version": "0.1.0",
+  "description": "Umbrella package — re-exports all @fluixi/forms-* packages (core, framework, zod, valibot, devtools).",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    },
+    "./framework": {
+      "types": "./dist/framework.d.ts",
+      "import": "./dist/framework.js"
+    },
+    "./zod": {
+      "types": "./dist/zod.d.ts",
+      "import": "./dist/zod.js"
+    },
+    "./valibot": {
+      "types": "./dist/valibot.d.ts",
+      "import": "./dist/valibot.js"
+    },
+    "./devtools": {
+      "types": "./dist/devtools.d.ts",
+      "import": "./dist/devtools.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@fluixi/forms-core": "workspace:*",
+    "@fluixi/forms-framework": "workspace:*",
+    "@fluixi/forms-zod": "workspace:*",
+    "@fluixi/forms-valibot": "workspace:*",
+    "@fluixi/forms-devtools": "workspace:*"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluixi/forms.git",
+    "directory": "packages/forms"
+  }
+}

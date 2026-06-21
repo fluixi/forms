@@ -4,6 +4,7 @@
   "commit": false,
   "fixed": [
     [
+      "@fluixi/forms",
       "@fluixi/forms-core",
       "@fluixi/forms-framework",
       "@fluixi/forms-zod",
