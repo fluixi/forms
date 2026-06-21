@@ -45,7 +45,7 @@ describe('createForm (group)', () => {
     form.get('name').setValue('Ada');
     form.get('email').setValue('ada@example.com');
     expect(form.valid()).toBe(true);
-    expect(form.values?.() ?? form.value()).toEqual({ name: 'Ada', email: 'ada@example.com' });
+    expect(form.value()).toEqual({ name: 'Ada', email: 'ada@example.com' });
   });
 
   it('cross-field validator (confirm) reacts fine-grained', () => {

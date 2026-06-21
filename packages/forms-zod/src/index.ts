@@ -102,9 +102,11 @@ export function fromZod<T extends Record<string, unknown>>(
 ): FormControl<{ [K in keyof T]: FieldControl<T[K]> }> {
   const controls = {} as { [K in keyof T]: FieldControl<T[K]> };
   for (const key in schema.shape) {
+    // createField widens fresh literals (FieldControl<Widen<V>>); here V is the schema's
+    // concrete type, so Widen<V> ≡ V, but TS can't prove that for a generic — cast.
     controls[key] = createField(initial[key], {
       validators: [zodFieldValidator(schema.shape[key])],
-    });
+    }) as FieldControl<T[typeof key]>;
   }
   // T is structurally GroupValue<{[K]: FieldControl<T[K]>}>, but TS can't equate the mapped
   // type — cast the schema validator to the group's value validator.

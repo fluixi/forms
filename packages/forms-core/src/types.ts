@@ -185,6 +185,23 @@ export interface FormControl<C extends ControlsRecord> extends GroupControl<C> {
 
 // ── Utility types ─────────────────────────────────────────────────────────────
 
+/**
+ * Widen a fresh literal to its primitive base, so `createField('')` is `FieldControl<string>`
+ * (not `FieldControl<''>`). TS normally widens a bare type-parameter inferred from a literal,
+ * but `T` also appears contravariantly in `FieldOptions<T>` (the validator param), which
+ * suppresses that widening — so we widen explicitly at the boundary. Non-primitives pass
+ * through unchanged; pass an explicit type arg to keep a literal union (e.g. a select).
+ */
+export type Widen<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends boolean
+      ? boolean
+      : T extends bigint
+        ? bigint
+        : T;
+
 export type PartialDeep<T> = T extends (infer U)[]
   ? PartialDeep<U>[]
   : T extends object

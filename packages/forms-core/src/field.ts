@@ -30,6 +30,7 @@ import type {
   ValidationError,
   ValidatorContext,
   AnyControl,
+  Widen,
 } from './types.js';
 
 /** Internal hooks the parent group/array uses to wire context + propagation. */
@@ -40,7 +41,10 @@ export interface InternalControl {
   _bumpSubmit(n: Accessor<number>): void;
 }
 
-export function createField<T>(initial: T, options: FieldOptions<T> = {}): FieldControl<T> {
+export function createField<T>(
+  initial: T,
+  options: FieldOptions<T> = {},
+): FieldControl<Widen<T>> {
   const equals = options.equals ?? Object.is;
   const debounce = options.debounce ?? 250;
   const syncValidators = options.validators ?? [];
@@ -211,5 +215,5 @@ export function createField<T>(initial: T, options: FieldOptions<T> = {}): Field
     _bumpSubmit: (n) => setSubmitCount(untrack(n)),
   };
 
-  return self;
+  return self as unknown as FieldControl<Widen<T>>;
 }
