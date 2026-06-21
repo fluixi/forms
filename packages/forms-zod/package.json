@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-zod",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Zod schema adapter for @fluixi/forms-core.",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Umbrella package — re-exports all @fluixi/forms-* packages (core, framework, zod, valibot, devtools).",
   "type": "module",
   "sideEffects": false,
