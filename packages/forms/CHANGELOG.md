@@ -1,5 +1,17 @@
 # @fluixi/forms
 
+## 0.2.1-alpha.0
+
+### Patch Changes
+
+- 4ee2e58: Add a README to every package (npm showed "no README") and bundle it in the tarball.
+- Updated dependencies [4ee2e58]
+  - @fluixi/forms-core@0.2.1-alpha.0
+  - @fluixi/forms-framework@0.2.1-alpha.0
+  - @fluixi/forms-zod@0.2.1-alpha.0
+  - @fluixi/forms-valibot@0.2.1-alpha.0
+  - @fluixi/forms-devtools@0.2.1-alpha.0
+
 ## 0.2.0
 
 ### Minor Changes

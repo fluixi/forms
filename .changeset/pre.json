@@ -9,5 +9,7 @@
     "@fluixi/forms-valibot": "0.2.0",
     "@fluixi/forms-zod": "0.2.0"
   },
-  "changesets": []
+  "changesets": [
+    "package-readmes"
+  ]
 }
