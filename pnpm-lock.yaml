@@ -39,8 +39,8 @@ importers:
   packages/forms-core:
     devDependencies:
       '@fluixi/reactive':
-        specifier: next
-        version: 1.0.0-next.15
+        specifier: alpha
+        version: 1.0.0-alpha.53
 
   packages/forms-devtools:
     dependencies:
@@ -49,8 +49,8 @@ importers:
         version: link:../forms-core
     devDependencies:
       '@fluixi/reactive':
-        specifier: next
-        version: 1.0.0-next.15
+        specifier: alpha
+        version: 1.0.0-alpha.53
 
   packages/forms-framework:
     dependencies:
@@ -269,11 +269,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fluixi/reactive@1.0.0-next.15':
-    resolution: {integrity: sha512-CQkac32YGFjXld80kE9Dll4HYR54EfyUX5ITRCpPqT1NhbHHGkM8E6WRmJvHwbeJPhpv7+pPCcl1pfwD2bGpsA==, tarball: https://npm.pkg.github.com/download/@fluixi/reactive/1.0.0-next.15/b162aa81c066fce9b22df4618c1656589a995cc1}
+  '@fluixi/reactive@1.0.0-alpha.53':
+    resolution: {integrity: sha512-33fb4kxY3G8Z7FP138Qejd5ECTRjTuktbnvrOL4LHPxhYnFDCC9BoCI47G4uOpgX3OLHU6Osjpy1JEULIHUVSQ==}
 
-  '@fluixi/utils@1.0.0-next.15':
-    resolution: {integrity: sha512-hvW+dDeIMC18SDAD5x26rmYAKfgrS6WivZAhlbHJO+XekQ5MUNrN31LNGO8/6HMG7e5v+G/y5WKdDmYyg5jQLw==, tarball: https://npm.pkg.github.com/download/@fluixi/utils/1.0.0-next.15/b1c845fb33284ad0e1f011f6f342bdb57a5cb61a}
+  '@fluixi/utils@1.0.0-alpha.53':
+    resolution: {integrity: sha512-D7H0ZqB9lF5bdoQIkEsnN/WH7cP6ocgVVm9r7dcS1b6UDHnaGcnv2hVNKE80mJcNBjpYaF4NL4nPOg8Ocf/SRw==}
 
   '@inquirer/external-editor@1.0.3':
     resolution: {integrity: sha512-RWbSrDiYmO4LbejWY7ttpxczuwQyZLBUyygsA9Nsv95hpzUWwnNTVQmAq3xuh7vNwCp07UTmE5i11XAEExx4RA==}
@@ -1147,12 +1147,12 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@fluixi/reactive@1.0.0-next.15':
+  '@fluixi/reactive@1.0.0-alpha.53':
     dependencies:
-      '@fluixi/utils': 1.0.0-next.15
+      '@fluixi/utils': 1.0.0-alpha.53
       tslib: 2.8.1
 
-  '@fluixi/utils@1.0.0-next.15':
+  '@fluixi/utils@1.0.0-alpha.53':
     dependencies:
       tslib: 2.8.1
 

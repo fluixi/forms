@@ -1,6 +1,7 @@
 {
   "name": "@fluixi/forms-devtools",
   "version": "0.2.0",
+  "license": "MIT",
   "description": "Devtools inspector for @fluixi/forms-core.",
   "type": "module",
   "main": "./dist/index.js",
@@ -13,7 +14,7 @@
   },
   "files": [
     "dist",
-    "src"
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -23,7 +24,7 @@
     "@fluixi/forms-core": "workspace:*"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/",
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "repository": {
@@ -35,6 +36,6 @@
     "@fluixi/reactive": "*"
   },
   "devDependencies": {
-    "@fluixi/reactive": "next"
+    "@fluixi/reactive": "alpha"
   }
 }

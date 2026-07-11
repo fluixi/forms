@@ -2,18 +2,18 @@ name: Release
 
 # Runs on push to main (stable) and next (prerelease).
 # - Pending changesets        → opens/updates a "Version Packages" PR
-# - "Version Packages" merged → builds & publishes to GitHub Packages
+# - "Version Packages" merged → builds & publishes to public npm
 # On `next`, changesets is in pre mode (.changeset/pre.json, tag `next`) → versions are
 # `-next.X`, published under the `next` dist-tag, separate from `latest` on main.
 on:
   push:
-    branches: [main, next]
+    branches: [main, next, alpha]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
-  packages: write
+  id-token: write   # npm publish provenance (OIDC) — enable once the repo is public
   pull-requests: write
 
 jobs:
@@ -30,17 +30,21 @@ jobs:
         with:
           version: 10
 
+      # No registry-url — it writes a temp .npmrc that would shadow ~/.npmrc.
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-          registry-url: https://npm.pkg.github.com/
-          scope: '@fluixi'
 
+      # @fluixi framework deps are read from public npm — no auth for install.
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      # pnpm v10 ignores committed .npmrc tokens; write the publish token to ~/.npmrc.
+      - name: Configure registry auth
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> ~/.npmrc
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # 1. changesets present → "Version Packages" PR. 2. that PR merged → `pnpm release`.
       - name: Create version PR or publish
@@ -52,4 +56,6 @@ jobs:
           commit: 'chore: version packages'
         env:
           GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # Provenance: enable ONLY after the repo is public (hard-fails on private).
+          # NPM_CONFIG_PROVENANCE: true

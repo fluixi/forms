@@ -1,6 +1,7 @@
 {
   "name": "@fluixi/forms-core",
   "version": "0.2.0",
+  "license": "MIT",
   "description": "Reactive forms core (FormControl/FormGroup/FormArray) for fine-grained signal frameworks.",
   "type": "module",
   "main": "./dist/index.js",
@@ -13,7 +14,7 @@
   },
   "files": [
     "dist",
-    "src"
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -21,7 +22,7 @@
   },
   "dependencies": {},
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/",
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "repository": {
@@ -33,6 +34,6 @@
     "@fluixi/reactive": "*"
   },
   "devDependencies": {
-    "@fluixi/reactive": "next"
+    "@fluixi/reactive": "alpha"
   }
 }

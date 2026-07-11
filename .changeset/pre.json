@@ -1,6 +1,6 @@
 {
   "mode": "pre",
-  "tag": "next",
+  "tag": "alpha",
   "initialVersions": {
     "@fluixi/forms": "0.2.0",
     "@fluixi/forms-core": "0.2.0",
