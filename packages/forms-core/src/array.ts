@@ -17,7 +17,7 @@ import type {
   ValidatorContext,
   PartialDeep,
 } from './types.js';
-import type { InternalControl } from './field.js';
+import { createField, type InternalControl } from './field.js';
 
 let _key = 0;
 const keys = new WeakMap<object, number>();
@@ -30,9 +30,12 @@ export const keyOf = (control: object): number => {
 
 export function createFormArray<TItem, TCtrl extends Control<TItem> = Control<TItem>>(
   initial: TCtrl[] = [],
-  options: ArrayOptions<TItem> = {},
+  options: ArrayOptions<TItem, TCtrl> = {},
 ): ArrayControl<TItem, TCtrl> {
   const [list, setList] = createSignal<TCtrl[]>([...initial]);
+  // Wrap a plain value into a child control for pushValue/insertValue. Defaults to
+  // a field; a `control` factory builds groups/nested arrays for structured rows.
+  const makeControl = options.control ?? ((v: TItem) => createField(v) as unknown as TCtrl);
   const [disabled, setDisabledSig] = createSignal(!!options.disabled);
   const [submitCount] = createSignal(0);
   const syncValidators = options.validators ?? [];
@@ -108,6 +111,8 @@ export function createFormArray<TItem, TCtrl extends Control<TItem> = Control<TI
       wire(c);
       mutate((arr) => (arr.splice(i, 0, c), arr));
     },
+    pushValue: (v) => self.push(makeControl(v)),
+    insertValue: (i, v) => self.insert(i, makeControl(v)),
     removeAt: (i) => mutate((arr) => (arr.splice(i, 1), arr)),
     move: (from, to) =>
       mutate((arr) => {

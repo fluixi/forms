@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { flush } from '@fluixi/reactive/signal';
-import { createField, createForm, createFormArray } from './index.js';
+import { createField, createForm, createFormArray, createGroup } from './index.js';
 import { required, email, minLength, sameAs } from './validators.js';
 
 const tick = async (ms = 0) => { await new Promise((r) => setTimeout(r, ms)); await flush(); };
@@ -113,5 +113,32 @@ describe('createFormArray', () => {
 
     arr.move(0, 1);
     expect(arr.value()).toEqual(['b', 'a']);
+  });
+
+  it('pushValue/insertValue wrap plain values (default field factory)', () => {
+    interface Row { id: string; qty: number }
+    const arr = createFormArray<Row>([], { validators: [required('add one')] });
+    expect(arr.valid()).toBe(false); // empty required array
+
+    arr.pushValue({ id: 'a', qty: 1 });
+    arr.pushValue({ id: 'b', qty: 2 });
+    expect(arr.length()).toBe(2);
+    expect(arr.value()).toEqual([{ id: 'a', qty: 1 }, { id: 'b', qty: 2 }]);
+    expect(arr.valid()).toBe(true);
+
+    arr.insertValue(1, { id: 'c', qty: 3 });
+    expect(arr.value().map((r) => r.id)).toEqual(['a', 'c', 'b']);
+
+    arr.removeAt(0);
+    expect(arr.value().map((r) => r.id)).toEqual(['c', 'b']);
+  });
+
+  it('pushValue uses a custom control factory for structured rows', () => {
+    const arr = createFormArray<{ name: string }>([], {
+      control: (v) => createGroup({ name: createField(v.name) }) as any,
+    });
+    arr.pushValue({ name: 'x' });
+    expect(arr.value()).toEqual([{ name: 'x' }]);
+    expect(arr.controls()[0].kind).toBe('group');
   });
 });

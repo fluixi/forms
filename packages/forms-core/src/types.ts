@@ -150,10 +150,16 @@ export interface GroupControl<C extends ControlsRecord> extends Control<GroupVal
 
 // ── Array ────────────────────────────────────────────────────────────────────
 
-export interface ArrayOptions<T> {
+export interface ArrayOptions<T, TCtrl extends Control<T> = Control<T>> {
   validators?: Validator<T[]>[];
   asyncValidators?: AsyncValidator<T[]>[];
   disabled?: boolean;
+  /**
+   * How to wrap a plain value into a child control for `pushValue`/`insertValue`.
+   * Defaults to `createField(value)`; supply this to build groups/nested arrays
+   * for structured rows.
+   */
+  control?: (value: T) => TCtrl;
 }
 
 export interface ArrayControl<TItem, TCtrl extends Control<TItem> = Control<TItem>>
@@ -165,6 +171,10 @@ export interface ArrayControl<TItem, TCtrl extends Control<TItem> = Control<TIte
   at(index: number): TCtrl | undefined;
   push(control: TCtrl): void;
   insert(index: number, control: TCtrl): void;
+  /** Wrap a plain value into a child control (see {@link ArrayOptions.control}) and append it. */
+  pushValue(value: TItem): void;
+  /** Wrap a plain value into a child control and insert it at `index`. */
+  insertValue(index: number, value: TItem): void;
   removeAt(index: number): void;
   move(from: number, to: number): void;
   clear(): void;
