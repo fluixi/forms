@@ -10,6 +10,7 @@
     "@fluixi/forms-zod": "0.2.0"
   },
   "changesets": [
+    "array-push-value",
     "package-readmes"
   ]
 }
