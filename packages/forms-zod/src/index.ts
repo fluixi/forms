@@ -18,7 +18,8 @@ import type {
 
 // Minimal structural types so this package doesn't hard-depend on a zod version.
 interface ZodIssue {
-  path: (string | number)[];
+  /** Zod 4 types it as PropertyKey[]: a symbol key is possible. */
+  path: ReadonlyArray<PropertyKey>;
   message: string;
   code: string;
 }
@@ -31,10 +32,13 @@ interface ZodLike<T> {
   safeParse(value: unknown): ZodResult<T>;
 }
 
+/** `a.0.b`. Through String(): join() throws on a symbol key. */
+const joinPath = (path: ReadonlyArray<PropertyKey>): string => path.map(String).join('.');
+
 const mapIssue = (issue: ZodIssue): ValidationError => ({
   type: issue.code || 'zod',
   message: issue.message,
-  meta: { path: issue.path.join('.') },
+  meta: { path: joinPath(issue.path) },
 });
 
 /**
@@ -59,7 +63,7 @@ export function zodErrorsByPath<T>(schema: ZodLike<T>, value: unknown): Record<s
   const out: Record<string, ValidationError[]> = {};
   if (res.success) return out;
   for (const issue of res.error?.issues ?? []) {
-    const key = issue.path.join('.') || '';
+    const key = joinPath(issue.path);
     (out[key] ??= []).push(mapIssue(issue));
   }
   return out;
