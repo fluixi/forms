@@ -12,6 +12,7 @@ export { createGroup, createForm } from './group.js';
 export { createFormArray, keyOf } from './array.js';
 
 export * from './validators.js';
+export * from './standard.js';
 export type {
   Accessor,
   ValidationError,
