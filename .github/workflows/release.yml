@@ -21,10 +21,24 @@ jobs:
     name: Version or publish
     runs-on: ubuntu-latest
     steps:
+      # `secrets.X || secrets.Y` falls back only when X is empty, so an expired PAT is
+      # still chosen and checkout fails on `could not read Username`. Ask the API instead.
+      - name: Check the release token
+        id: token
+        run: |
+          if [ -n "${{ secrets.PACKAGES_TOKEN }}" ] && curl -sf -o /dev/null \
+              -H "Authorization: Bearer ${{ secrets.PACKAGES_TOKEN }}" \
+              https://api.github.com/user; then
+            echo "pat=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "pat=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=PACKAGES_TOKEN unusable::Falling back to GITHUB_TOKEN. Rotate the PAT."
+          fi
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ steps.token.outputs.pat == 'true' && secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
 
       - uses: pnpm/action-setup@v4
         with:
@@ -55,7 +69,7 @@ jobs:
           title: 'chore: version packages'
           commit: 'chore: version packages'
         env:
-          GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.token.outputs.pat == 'true' && secrets.PACKAGES_TOKEN || secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           # Provenance: enable ONLY after the repo is public (hard-fails on private).
           # NPM_CONFIG_PROVENANCE: true
