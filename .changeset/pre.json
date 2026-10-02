@@ -11,6 +11,8 @@
   },
   "changesets": [
     "array-push-value",
-    "package-readmes"
+    "package-readmes",
+    "standard-schema",
+    "zod-paths"
   ]
 }

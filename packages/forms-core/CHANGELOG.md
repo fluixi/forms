@@ -1,5 +1,11 @@
 # @fluixi/forms-core
 
+## 0.2.1-alpha.2
+
+### Patch Changes
+
+- 316eb66: standardValidator, standardAsyncValidator and standardErrorsByPath now validate with any Standard Schema, allowing Zod 4, Valibot and ArkType schemas to plug into a field or form without a library-specific adapter.
+
 ## 0.2.1-alpha.1
 
 ### Patch Changes

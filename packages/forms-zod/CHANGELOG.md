@@ -1,5 +1,13 @@
 # @fluixi/forms-zod
 
+## 0.2.1-alpha.2
+
+### Patch Changes
+
+- d3d0ebe: Zod 4 schemas with issue paths as `PropertyKey[]` now fit the validators without a cast, and an issue path holding a symbol key no longer throws.
+- Updated dependencies [316eb66]
+  - @fluixi/forms-core@0.2.1-alpha.2
+
 ## 0.2.1-alpha.1
 
 ### Patch Changes

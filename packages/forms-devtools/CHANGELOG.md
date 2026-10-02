@@ -1,5 +1,12 @@
 # @fluixi/forms-devtools
 
+## 0.2.1-alpha.2
+
+### Patch Changes
+
+- Updated dependencies [316eb66]
+  - @fluixi/forms-core@0.2.1-alpha.2
+
 ## 0.2.1-alpha.1
 
 ### Patch Changes
