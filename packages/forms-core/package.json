@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-core",
-  "version": "0.2.1-alpha.2",
+  "version": "1.0.0-alpha.98",
   "license": "MIT",
   "description": "Reactive forms core (FormControl/FormGroup/FormArray) for fine-grained signal frameworks.",
   "type": "module",
@@ -21,7 +21,6 @@
     "build": "tsc -p tsconfig.json",
     "test": "vitest run --passWithNoTests"
   },
-  "dependencies": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
@@ -32,9 +31,9 @@
     "directory": "packages/forms-core"
   },
   "peerDependencies": {
-    "@fluixi/reactive": "*"
+    "@fluixi/reactive": "^1.0.0-alpha.99"
   },
   "devDependencies": {
-    "@fluixi/reactive": "alpha"
+    "@fluixi/reactive": "1.0.0-alpha.99"
   }
 }

@@ -2,12 +2,12 @@
   "mode": "pre",
   "tag": "alpha",
   "initialVersions": {
-    "@fluixi/forms": "0.2.0",
-    "@fluixi/forms-core": "0.2.0",
-    "@fluixi/forms-devtools": "0.2.0",
-    "@fluixi/forms-framework": "0.2.0",
-    "@fluixi/forms-valibot": "0.2.0",
-    "@fluixi/forms-zod": "0.2.0"
+    "@fluixi/forms": "1.0.0-alpha.98",
+    "@fluixi/forms-core": "1.0.0-alpha.98",
+    "@fluixi/forms-devtools": "1.0.0-alpha.98",
+    "@fluixi/forms-framework": "1.0.0-alpha.98",
+    "@fluixi/forms-valibot": "1.0.0-alpha.98",
+    "@fluixi/forms-zod": "1.0.0-alpha.98"
   },
   "changesets": [
     "array-push-value",
