@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-zod",
-  "version": "1.0.0-alpha.98",
+  "version": "1.0.0-alpha.99",
   "license": "MIT",
   "description": "Zod schema adapter for @fluixi/forms-core.",
   "type": "module",

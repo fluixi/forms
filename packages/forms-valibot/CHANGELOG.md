@@ -1,5 +1,13 @@
 # @fluixi/forms-valibot
 
+## 1.0.0-alpha.99
+
+### Patch Changes
+
+- bec5ccb: The forms packages move to the framework's version line, 1.0.0-alpha.99, and are released with it from here on; forms-core and forms-devtools peer on `@fluixi/reactive` ^1.0.0-alpha.99.
+- Updated dependencies [bec5ccb]
+  - @fluixi/forms-core@1.0.0-alpha.99
+
 ## 0.2.1-alpha.2
 
 ### Patch Changes

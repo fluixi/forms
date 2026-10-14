@@ -11,6 +11,7 @@
   },
   "changesets": [
     "array-push-value",
+    "framework-version",
     "package-readmes",
     "standard-schema",
     "zod-paths"

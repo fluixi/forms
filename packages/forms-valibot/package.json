@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-valibot",
-  "version": "1.0.0-alpha.98",
+  "version": "1.0.0-alpha.99",
   "license": "MIT",
   "description": "Valibot schema adapter for @fluixi/forms-core.",
   "type": "module",
