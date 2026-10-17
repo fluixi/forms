@@ -1,5 +1,17 @@
 # @fluixi/forms
 
+## 1.0.0-alpha.100
+
+### Patch Changes
+
+- 917c51a: The forms packages release with the framework at 1.0.0-alpha.100, are tested against `@fluixi/reactive` 1.0.0-alpha.100, and keep the peer range unchanged (^1.0.0-alpha.99).
+- Updated dependencies [917c51a]
+  - @fluixi/forms-core@1.0.0-alpha.100
+  - @fluixi/forms-framework@1.0.0-alpha.100
+  - @fluixi/forms-zod@1.0.0-alpha.100
+  - @fluixi/forms-valibot@1.0.0-alpha.100
+  - @fluixi/forms-devtools@1.0.0-alpha.100
+
 ## 1.0.0-alpha.99
 
 ### Patch Changes

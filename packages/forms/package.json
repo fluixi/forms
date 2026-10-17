@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms",
-  "version": "1.0.0-alpha.99",
+  "version": "1.0.0-alpha.100",
   "license": "MIT",
   "description": "Umbrella package — re-exports all @fluixi/forms-* packages (core, framework, zod, valibot, devtools).",
   "type": "module",
