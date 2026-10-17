@@ -37,6 +37,6 @@
     "@fluixi/reactive": "^1.0.0-alpha.99"
   },
   "devDependencies": {
-    "@fluixi/reactive": "1.0.0-alpha.99"
+    "@fluixi/reactive": "1.0.0-alpha.100"
   }
 }
