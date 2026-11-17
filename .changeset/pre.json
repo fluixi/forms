@@ -12,6 +12,7 @@
   "changesets": [
     "array-push-value",
     "framework-alpha-100",
+    "framework-alpha-109",
     "framework-version",
     "package-readmes",
     "standard-schema",

@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-framework",
-  "version": "1.0.0-alpha.108",
+  "version": "1.0.0-alpha.109",
   "license": "MIT",
   "description": "JSX bindings + Field component for @fluixi/forms-core.",
   "type": "module",
