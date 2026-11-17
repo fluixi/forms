@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-devtools",
-  "version": "1.0.0-alpha.100",
+  "version": "1.0.0-alpha.108",
   "license": "MIT",
   "description": "Devtools inspector for @fluixi/forms-core.",
   "type": "module",
@@ -37,6 +37,6 @@
     "@fluixi/reactive": "^1.0.0-alpha.99"
   },
   "devDependencies": {
-    "@fluixi/reactive": "1.0.0-alpha.100"
+    "@fluixi/reactive": "1.0.0-alpha.109"
   }
 }
