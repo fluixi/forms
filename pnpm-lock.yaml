@@ -39,8 +39,8 @@ importers:
   packages/forms-core:
     devDependencies:
       '@fluixi/reactive':
-        specifier: 1.0.0-alpha.109
-        version: 1.0.0-alpha.109
+        specifier: 1.0.0-alpha.110
+        version: 1.0.0-alpha.110
 
   packages/forms-devtools:
     dependencies:
@@ -49,8 +49,8 @@ importers:
         version: link:../forms-core
     devDependencies:
       '@fluixi/reactive':
-        specifier: 1.0.0-alpha.109
-        version: 1.0.0-alpha.109
+        specifier: 1.0.0-alpha.110
+        version: 1.0.0-alpha.110
 
   packages/forms-framework:
     dependencies:
@@ -269,8 +269,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@fluixi/reactive@1.0.0-alpha.109':
-    resolution: {integrity: sha512-tDjuvL5IGu9ZNa7xERWPSc0O69f1zSlaUm/5oTCHd+xP54MMQqMYybhrP3ntYODnhGAz4NxmyMMHv0eoFLpS+g==}
+  '@fluixi/reactive@1.0.0-alpha.110':
+    resolution: {integrity: sha512-9QXSUHnjpXlHzZZGnnFR/wPEX2L1rcQUm/m+W/DlhuJTOOIvUui/qwVXZblUXoCEL+1l15VGPpWBL8//TR6IiQ==}
 
   '@inquirer/external-editor@1.0.3':
     resolution: {integrity: sha512-RWbSrDiYmO4LbejWY7ttpxczuwQyZLBUyygsA9Nsv95hpzUWwnNTVQmAq3xuh7vNwCp07UTmE5i11XAEExx4RA==}
@@ -1141,7 +1141,7 @@ snapshots:
   '@esbuild/win32-x64@0.21.5':
     optional: true
 
-  '@fluixi/reactive@1.0.0-alpha.109': {}
+  '@fluixi/reactive@1.0.0-alpha.110': {}
 
   '@inquirer/external-editor@1.0.3':
     dependencies:
