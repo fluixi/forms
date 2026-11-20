@@ -1,0 +1,53 @@
+# Fluixi Forms
+
+> @fluixi/forms is the form library for Fluixi: every field is its own reactive cell, with sync and
+> async validation, groups, arrays, and schema validators (Standard Schema, Zod, Valibot).
+
+The framework rules come first: https://docs.fluixi.com/llms.txt. For the form components
+(`Form`, `FormField`, inputs), read https://ui.fluixi.com/llms.txt.
+
+## Rules for writing forms
+
+### State and validation
+
+- Build the form with `createForm({ ... })` and `createField(initial, { validators })`, imported
+  from `@fluixi/forms`. Do not hold form state in hand-made signals.
+- Validate with a schema: `standardValidator(schema)` takes any Standard Schema (Zod 4, Valibot,
+  ArkType), on a field or on the whole form; its first issue becomes the error. An async schema
+  goes in `asyncValidators` through `standardAsyncValidator(schema)`. `fromZod(schema)` builds a
+  typed form from a Zod object, one field per key.
+- Built-in validators: `required()`, `email()`, `minLength(n)`, `sameAs('otherField', message)`.
+- Async validators take `(value, ctx, signal)`; pass `signal` to `fetch` so a stale check is
+  aborted. `debounce: 300` on the field spaces them out; `field.pending()` is true while one runs.
+- Reads are signals: `form.get('email').value()`, `.valid()`, `.error()`, `.touched()`;
+  `form.valid()` for the whole form.
+- `field.setValue(v)` marks the field touched, so its error shows at once. To prefill or clear a
+  form, use `field.reset(v)`.
+- `createField` widens a literal start value: `createField('fr')` is a `string` field. Narrow at
+  submit.
+- Lists of fields: `createFormArray([...])` with `push`, `move`, `removeAt`.
+- Schemas live with the app's shared types, not in the route file. Messages are i18n keys,
+  translated where they are shown.
+
+### Rendering and submitting
+
+- Render with `Form` and `FormField` from `@fluixi-ui/form`, and the inputs from `@fluixi-ui/*`:
+
+```tsx
+<Form form={form} action={signUp} novalidate>
+  <FormField control={form.get('email')} label="Email">
+    {(b) => <Input type="email" name="email" value={b.value()} onInput={b.onInput} onBlur={b.onBlur} />}
+  </FormField>
+</Form>
+```
+
+- `Form` validates first, then calls its `action` (a router `action(fn, 'name')`) with the checked
+  values only, and keeps `method="post"` and the action URL so the form also works without
+  script. Use `onSubmit` for a plain async function. Read pending and error state with
+  `useSubmission`.
+- The router's `ActionForm` posts the fields as they are, unchecked: use it only when nothing
+  needs validating.
+- Without fluixi-ui, `Field` and `bindField` from `@fluixi/forms` give the same bindings
+  (`value`, `onInput`, `onBlur`, `aria-invalid`).
+- A server refusal is thrown as an i18n key (`new Error('auth.error.tooMany')`) and shown like a
+  validation error.
