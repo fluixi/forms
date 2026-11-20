@@ -1,5 +1,19 @@
 # @fluixi/forms
 
+## 1.0.0-alpha.111
+
+### Minor Changes
+
+- 1aadbb4: The package now ships `llms.txt`, which contains rules for coding assistants writing forms and links to the core and UI llms files.
+
+### Patch Changes
+
+- @fluixi/forms-core@1.0.0-alpha.111
+- @fluixi/forms-framework@1.0.0-alpha.111
+- @fluixi/forms-zod@1.0.0-alpha.111
+- @fluixi/forms-valibot@1.0.0-alpha.111
+- @fluixi/forms-devtools@1.0.0-alpha.111
+
 ## 1.0.0-alpha.110
 
 ### Patch Changes
