@@ -1,5 +1,9 @@
 # @fluixi/forms
 
+![Status: experimental](https://img.shields.io/badge/status-experimental-f97316)
+
+> @fluixi/forms is experimental: APIs can change between alpha releases. Pin exact versions.
+
 Reactive forms for fine-grained signal frameworks — Angular Reactive Forms redesigned
 natively for a Fluixi compiler-driven runtime. No RxJS, no central store, no
 proxies. Every field is an independent reactive cell.

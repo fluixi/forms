@@ -3,6 +3,10 @@
 > @fluixi/forms is the form library for Fluixi: every field is its own reactive cell, with sync and
 > async validation, groups, arrays, and schema validators (Standard Schema, Zod, Valibot).
 
+@fluixi/forms is experimental: APIs change between alpha releases. Code remembered from an older
+alpha may no longer compile; check it against these rules and the installed version, and pin exact
+versions.
+
 The framework rules come first: https://docs.fluixi.com/llms.txt. For the form components
 (`Form`, `FormField`, inputs), read https://ui.fluixi.com/llms.txt.
 
