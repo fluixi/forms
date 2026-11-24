@@ -1,5 +1,12 @@
 # @fluixi/forms-zod
 
+## 1.0.0-alpha.113
+
+### Patch Changes
+
+- Updated dependencies [2c10761]
+  - @fluixi/forms-core@1.0.0-alpha.113
+
 ## 1.0.0-alpha.112
 
 ### Patch Changes
