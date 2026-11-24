@@ -1,5 +1,17 @@
 # @fluixi/forms
 
+## 1.0.0-alpha.112
+
+### Patch Changes
+
+- 0f6cc2b: llms.txt now indicates that the APIs are experimental and may change between alpha releases, so pin exact versions to avoid unexpected updates.
+- Updated dependencies [8a67d5f]
+  - @fluixi/forms-core@1.0.0-alpha.112
+  - @fluixi/forms-devtools@1.0.0-alpha.112
+  - @fluixi/forms-framework@1.0.0-alpha.112
+  - @fluixi/forms-valibot@1.0.0-alpha.112
+  - @fluixi/forms-zod@1.0.0-alpha.112
+
 ## 1.0.0-alpha.111
 
 ### Minor Changes

@@ -1,5 +1,11 @@
 # @fluixi/forms-core
 
+## 1.0.0-alpha.112
+
+### Patch Changes
+
+- 8a67d5f: Forms core now builds and tests against `@fluixi/reactive` 1.0.0-alpha.113.
+
 ## 1.0.0-alpha.111
 
 ## 1.0.0-alpha.110

@@ -1,6 +1,6 @@
 {
   "name": "@fluixi/forms-core",
-  "version": "1.0.0-alpha.111",
+  "version": "1.0.0-alpha.112",
   "license": "MIT",
   "description": "Reactive forms core (FormControl/FormGroup/FormArray) for fine-grained signal frameworks.",
   "type": "module",
