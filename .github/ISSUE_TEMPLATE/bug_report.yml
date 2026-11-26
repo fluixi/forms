@@ -1,0 +1,37 @@
+name: Bug report
+description: Something does not work as documented.
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A playground link or a minimal repository.
+      placeholder: https://playground.fluixi.com/...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Errors and logs
+      description: Console output or a stack trace, if any.
+      render: shell
+  - type: input
+    id: packages
+    attributes:
+      label: Package versions
+      placeholder: "@fluixi/forms 1.0.0-alpha.113, @fluixi/core 1.0.0-alpha.113, zod 4.1.5"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: Node 22, Chrome 131, macOS
