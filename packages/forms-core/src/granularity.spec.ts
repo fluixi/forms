@@ -1,14 +1,10 @@
-/**
- * Granularity guarantees — the whole point of building on fine-grained signals.
- * We count how many times each field's validator runs to PROVE that changing one field
- * does not recompute unrelated fields, and that a cross-field dependency recomputes ONLY
- * the dependent.
- */
+// Counts validator runs: changing one field must not recompute an unrelated one, and a
+// cross-field dependency recomputes only its dependent.
 import { describe, it, expect } from 'vitest';
 import { createForm, createField } from './index.js';
 
 describe('granularity', () => {
-  it('changing field A does NOT recompute field B', () => {
+  it('changing field A does not recompute field B', () => {
     let aRuns = 0;
     let bRuns = 0;
     const form = createForm({
@@ -25,7 +21,7 @@ describe('granularity', () => {
     // Mutate A, then re-read both.
     form.get('a').setValue('x');
     form.get('a').valid(); // A recomputes (its value changed)
-    form.get('b').valid(); // B is cached — must NOT recompute
+    form.get('b').valid(); // B is cached and must not recompute
 
     expect(aRuns).toBeGreaterThan(a0);
     expect(bRuns).toBe(b0); // ← fine-grained: B untouched
@@ -52,7 +48,7 @@ describe('granularity', () => {
     expect(form.valid()).toBe(false);
   });
 
-  it('a cross-field dependency recomputes ONLY the dependent', () => {
+  it('a cross-field dependency recomputes only the dependent', () => {
     let pwRuns = 0;
     let confirmRuns = 0;
     const form = createForm({
@@ -69,7 +65,7 @@ describe('granularity', () => {
     const confirm0 = confirmRuns;
 
     // Change pw → confirm depends on it (ctx.get('pw')) and must recompute; pw recomputes
-    // its own validator too, but NOTHING else in a larger form would.
+    // its own validator too, but nothing else in a larger form would.
     form.get('pw').setValue('b');
     form.get('confirm').valid();
     form.get('pw').valid();

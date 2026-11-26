@@ -1,10 +1,3 @@
-/**
- * @fluixi/forms-devtools — inspect a form tree without subscribing to it.
- *
- * `snapshot()` reads the current state via `untrack` (no subscriptions created), so calling
- * it from a devtools panel never perturbs the reactive graph. `watch()` creates ONE effect
- * over the root that emits a fresh snapshot on any change — the only subscription devtools adds.
- */
 import { untrack, createEffect } from '@fluixi/reactive/signal';
 import type { AnyControl, ValidationError } from '@fluixi/forms-core';
 
@@ -45,7 +38,10 @@ export function snapshot(control: AnyControl): ControlSnapshot {
   });
 }
 
-/** Subscribe to the tree — `cb` fires with a new snapshot on any change. Returns a disposer. */
+/**
+ * Subscribe to the tree: `cb` fires with a new snapshot on any change. This one effect over the
+ * root is the only subscription devtools adds. Returns a disposer.
+ */
 export function watch(control: AnyControl, cb: (snap: ControlSnapshot) => void): () => void {
   let dispose = () => {};
   createEffect(() => {

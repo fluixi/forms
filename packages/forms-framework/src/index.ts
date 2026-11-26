@@ -1,16 +1,9 @@
-/**
- * @fluixi/forms-framework — JSX bindings for @fluixi/forms-core.
- *
- * Fine-grained by construction: `bindField` returns reactive prop accessors. In the
- * Fluixi compiler, `value={field.value}` and `onInput={...}` wire to ONLY that field's
- * signals, so typing in one field never re-runs another.
- */
 import type { FieldControl } from '@fluixi/forms-core';
 
 export interface FieldBinding<T> {
-  /** reactive value accessor — pass as `value={binding.value}` */
+  /** Reactive value accessor, passed as `value={binding.value}`. */
   value: () => T;
-  /** writes the field + marks touched */
+  /** Writes the field and marks it touched. */
   onInput: (e: { currentTarget: { value: any } } | any) => void;
   onBlur: () => void;
   'aria-invalid': () => boolean;

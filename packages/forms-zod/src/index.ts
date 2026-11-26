@@ -1,13 +1,3 @@
-/**
- * @fluixi/forms-zod — Zod adapter.
- *
- * Two integration levels:
- *   zodValidator(schema)     — a form-level Validator that runs schema.safeParse and maps
- *                              Zod issues to per-path ValidationErrors (attach to a group).
- *   zodField(schema, initial)— a single field whose validator is derived from a Zod type.
- *
- * Typing: `z.infer<typeof schema>` is the form value type, so values/errors stay typed.
- */
 import { createField, createForm } from '@fluixi/forms-core';
 import type {
   Validator,
@@ -81,7 +71,6 @@ export function zodFieldValidator<T>(schema: ZodLike<T>, message?: string): Vali
 
 export type InferZod<S> = S extends ZodLike<infer T> ? T : never;
 
-// ── Schema → form generation ────────────────────────────────────────────────────
 
 interface ZodObjectLike<T> extends ZodLike<T> {
   /** zod object's per-key sub-schemas. */
@@ -107,13 +96,13 @@ export function fromZod<T extends Record<string, unknown>>(
   const controls = {} as { [K in keyof T]: FieldControl<T[K]> };
   for (const key in schema.shape) {
     // createField widens fresh literals (FieldControl<Widen<V>>); here V is the schema's
-    // concrete type, so Widen<V> ≡ V, but TS can't prove that for a generic — cast.
+    // concrete type, so Widen<V> is V, but TS cannot prove that for a generic.
     controls[key] = createField(initial[key], {
       validators: [zodFieldValidator(schema.shape[key])],
     }) as FieldControl<T[typeof key]>;
   }
   // T is structurally GroupValue<{[K]: FieldControl<T[K]>}>, but TS can't equate the mapped
-  // type — cast the schema validator to the group's value validator.
+  // type, hence the cast to the group's value validator.
   return createForm(controls, {
     validators: [zodValidator(schema) as Validator<any>],
   }) as FormControl<{ [K in keyof T]: FieldControl<T[K]> }>;

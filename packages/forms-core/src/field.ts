@@ -1,19 +1,3 @@
-/**
- * createField — the FormControl equivalent.
- *
- * Reactivity model (fine-grained, no central store):
- *   value      → a signal
- *   touched    → a signal
- *   disabled   → a signal
- *   syncErrors → a memo over (value, sibling deps via ctx) — LAZY, recomputed only when
- *                an input changes, and only if something reads it.
- *   asyncErrors→ a signal, written by a debounced effect (AbortController-cancelled)
- *   errors     → memo merging sync + async
- *   valid/dirty/… → memos derived from the above
- *
- * No field re-runs because another field changed, unless it explicitly reads that field
- * through `ctx.get(path)` (a cross-field dependency) — that read subscribes it precisely.
- */
 import {
   createSignal,
   createMemo,
@@ -72,7 +56,7 @@ export function createField<T>(
     get: (path) => self._ctxGet(path) as any,
   };
 
-  // Sync validation — a memo. Reading `value()` subscribes it to value; any `ctx.get(p)`
+  // Sync validation is a memo. Reading `value()` subscribes it to value; any `ctx.get(p)`
   // inside a validator subscribes it to that sibling. Disabled fields are always valid.
   const syncErrors = createMemo<ValidationError[]>(() => {
     if (disabled()) return [];
@@ -94,10 +78,9 @@ export function createField<T>(
   const dirty = createMemo(() => !equals(value(), initialValue()));
   const pristine = createMemo(() => !dirty());
 
-  // ── Async validation engine ──────────────────────────────────────────────────
   // A single debounced effect tracks `value`. On each change it cancels the in-flight run
   // (AbortController), waits `debounce`, runs all async validators in parallel, and writes
-  // the result — but only if it's still the latest run (stale guard). pending() reflects it.
+  // the result only if it is still the latest run. pending() reflects it.
   if (asyncValidators.length > 0) {
     let runId = 0;
     let controller: AbortController | null = null;
@@ -139,7 +122,6 @@ export function createField<T>(
     });
   }
 
-  // ── Mutations ────────────────────────────────────────────────────────────────
   const setValue = (v: T, opts: UpdateOptions = {}) => {
     batch(() => {
       setValueSig(() => v);

@@ -1,11 +1,3 @@
-/**
- * createFormArray — a dynamic, ordered list of controls with STABLE identity.
- *
- * The list is a signal of controls; push/insert/remove/move replace it immutably so
- * fine-grained list diffing (the framework's keyed `<For>`) reuses DOM for moved rows
- * instead of re-rendering. Identity is the control object itself (stable across reorders),
- * exposed via `keyOf` for keyed rendering. Aggregate state is derived with memos.
- */
 import { createSignal, createMemo, untrack, batch } from '@fluixi/reactive/signal';
 import type {
   AnyControl,
@@ -28,6 +20,10 @@ export const keyOf = (control: object): number => {
   return k;
 };
 
+/**
+ * A dynamic list of controls. Push, insert, remove and move replace the list rather than
+ * mutate it, so a keyed `<For>` moves existing rows instead of rendering them again.
+ */
 export function createFormArray<TItem, TCtrl extends Control<TItem> = Control<TItem>>(
   initial: TCtrl[] = [],
   options: ArrayOptions<TItem, TCtrl> = {},

@@ -21,7 +21,7 @@ const num = (opts: { min?: number } = {}) => ({
   },
 });
 
-// z.object({ email, age }) — with a per-field shape and a whole-object safeParse.
+// z.object({ email, age }): a per-field shape and a whole-object safeParse.
 const Schema = {
   shape: { email: str({ email: true }), age: num({ min: 18 }) },
   safeParse(v: any) {

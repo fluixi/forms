@@ -59,7 +59,7 @@ export const sameAs = (path: string, message = 'Values must match'): Validator =
 export const when = <T>(predicate: (ctx: Parameters<Validator<T>>[1]) => boolean, validator: Validator<T>): Validator<T> =>
   (value, ctx) => (predicate(ctx) ? validator(value, ctx) : null);
 
-/** Compose validators into one — returns the FIRST failure (short-circuits). */
+/** Compose validators into one that returns the first failure. */
 export const compose = <T>(...validators: Validator<T>[]): Validator<T> =>
   (value, ctx) => {
     for (const v of validators) {
@@ -69,12 +69,11 @@ export const compose = <T>(...validators: Validator<T>[]): Validator<T> =>
     return null;
   };
 
-/** Run all validators and collect EVERY failure (no short-circuit). */
+/** Run all validators and collect every failure. */
 export const all = <T>(...validators: Validator<T>[]) =>
   (value: T, ctx: Parameters<Validator<T>>[1]): ValidationError[] =>
     validators.map((v) => v(value, ctx)).filter((e): e is ValidationError => e != null);
 
-// ── async helpers ──────────────────────────────────────────────────────────────
 
 /**
  * Wrap a plain async check (returns boolean) as an AsyncValidator. The `signal` aborts a

@@ -1,7 +1,3 @@
-/**
- * @fluixi/forms-valibot — Valibot adapter. Mirrors forms-zod: a schema becomes a
- * group-level validator (issues routed by path) or a field-level validator.
- */
 import type { Validator, ValidationError } from '@fluixi/forms-core';
 
 interface ValibotIssue {

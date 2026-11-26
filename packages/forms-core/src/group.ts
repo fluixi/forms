@@ -1,11 +1,3 @@
-/**
- * createGroup — the FormGroup equivalent; createForm — a root group with submission.
- *
- * A group derives its aggregate state from its children with memos, so the aggregate is
- * lazy and granular: `group.valid()` recomputes only when a child's `valid()` flips, and
- * reading it subscribes the caller to exactly that. Structure is itself a signal, so
- * dynamic add/remove of controls is reactive.
- */
 import { createSignal, createMemo, untrack, batch } from '@fluixi/reactive/signal';
 import type {
   AnyControl,
@@ -77,7 +69,8 @@ export function createGroup<C extends ControlsRecord>(
     return out;
   });
 
-  // Aggregate: own group-level errors + every descendant's errors.
+  // Own group-level errors plus every descendant's. As a memo, `valid()` recomputes only
+  // when a child's validity flips.
   const errors = createMemo<ValidationError[]>(() => {
     if (disabled()) return [];
     const out = [...ownErrors()];
@@ -92,7 +85,6 @@ export function createGroup<C extends ControlsRecord>(
   const touched = createMemo(() => children().some((c) => c.touched()));
   const dirty = createMemo(() => children().some((c) => c.dirty()));
 
-  // ── mutations ──────────────────────────────────────────────────────────────
   const patch = (partial: PartialDeep<GroupValue<C>>, opts?: UpdateOptions) => {
     batch(() => {
       const record = untrack(controlsSig);
