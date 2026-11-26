@@ -1,8 +1,8 @@
 # @fluixi/forms-framework
 
-JSX bindings for `@fluixi/forms-core`: `bindField`, the `<Field>` component, and `use:model`. Wire a reactive form into Fluixi components.
+JSX bindings for `@fluixi/forms-core`: `bindField`, `bindCheckbox`, the `<Field>` component and `use:model`.
 
-Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms) — reactive forms for fine-grained signal frameworks.
+Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms), reactive forms for Fluixi.
 
 ## Install
 

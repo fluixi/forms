@@ -13,7 +13,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
-  id-token: write   # npm publish provenance (OIDC) — enable once the repo is public
+  id-token: write   # npm publish provenance (OIDC), enabled once the repo is public
   pull-requests: write
 
 jobs:
@@ -44,13 +44,13 @@ jobs:
         with:
           version: 10
 
-      # No registry-url — it writes a temp .npmrc that would shadow ~/.npmrc.
+      # No registry-url: it writes a temp .npmrc that would shadow ~/.npmrc.
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
 
-      # @fluixi framework deps are read from public npm — no auth for install.
+      # @fluixi framework deps are read from public npm; no auth for install.
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

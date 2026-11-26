@@ -1,29 +1,25 @@
 # @fluixi/forms
 
-![Status: experimental](https://img.shields.io/badge/status-experimental-f97316)
+[![npm](https://img.shields.io/npm/v/@fluixi/forms/alpha?color=0f9f87&label=npm)](https://www.npmjs.com/package/@fluixi/forms)
+[![MIT license](https://img.shields.io/badge/license-MIT-4d7c0f)](https://github.com/fluixi/forms/blob/alpha/LICENSE)
 
-> @fluixi/forms is experimental: APIs can change between alpha releases. Pin exact versions.
+Reactive forms for [Fluixi](https://fluixi.com). Every field is its own reactive cell: typing in one field re-runs that field's validators and whatever reads it, nothing else. Sync and async validation, nested groups, keyed arrays, and schema validation through Standard Schema, Zod or Valibot.
 
-Reactive forms for fine-grained signal frameworks — Angular Reactive Forms redesigned
-natively for a Fluixi compiler-driven runtime. No RxJS, no central store, no
-proxies. Every field is an independent reactive cell.
+> [!NOTE]
+> @fluixi/forms is in alpha. APIs can change between releases, so pin exact versions.
 
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full design.
+## Install
 
-## Packages
+```sh
+npm i @fluixi/forms @fluixi/reactive
+```
 
-| Package | What |
-| --- | --- |
-| [`@fluixi/forms-core`](packages/forms-core) | `createField` / `createGroup` / `createForm` / `createFormArray`, validators, async engine |
-| [`@fluixi/forms-framework`](packages/forms-framework) | JSX bindings — `bindField`, `<Field>`, `use:model` |
-| [`@fluixi/forms-zod`](packages/forms-zod) | Zod schema → validators (typed, error-by-path) |
-| [`@fluixi/forms-valibot`](packages/forms-valibot) | Valibot schema → validators |
-| [`@fluixi/forms-devtools`](packages/forms-devtools) | untracked tree inspector + `watch()` |
+Zod and Valibot are optional: install the one you validate with.
 
 ## Quick start
 
 ```ts
-import { createForm, createField, required, email, minLength, sameAs } from '@fluixi/forms-core';
+import { createForm, createField, required, email, minLength, sameAs } from '@fluixi/forms';
 
 const form = createForm({
   name: createField('', { validators: [required(), minLength(2)] }),
@@ -32,110 +28,144 @@ const form = createForm({
   confirm: createField('', { validators: [sameAs('password', 'Passwords must match')] }),
 });
 
-// fine-grained reads — subscribe to exactly what you touch
-form.get('email').value();    // ''
-form.get('email').valid();    // false
-form.get('email').error();    // { type: 'required', message: '…' }
-form.valid();                 // aggregate
+form.get('email').value(); // ''
+form.get('email').valid(); // false
+form.get('email').error(); // { type: 'required', message: 'This field is required' }
+form.valid();              // every field valid
 
 form.get('email').setValue('ada@example.com');
 
-await form.submit((values) => api.signup(values)); // validates (sync+async), returns boolean
+// Validates, async validators included, then calls the handler when the form is valid.
+const ok = await form.submit((values) => api.signup(values));
 ```
 
-### Async validation
+Each read is an accessor and subscribes to that value alone. `form.valid()` recomputes when a field's validity flips, not on every keystroke.
+
+## Async validation
 
 ```ts
 const username = createField('', {
   debounce: 300,
   asyncValidators: [
-    async (v, _ctx, signal) =>
-      (await fetch(`/check?u=${v}`, { signal }).then(r => r.json())).available
-        ? null : { type: 'taken', message: 'Already taken' },
+    async (value, _ctx, signal) => {
+      const res = await fetch(`/check?u=${value}`, { signal });
+      return (await res.json()).available ? null : { type: 'taken', message: 'Already taken' };
+    },
   ],
 });
-username.pending(); // true while checking
+
+username.pending(); // true while the check runs
 ```
 
-### Dynamic arrays
+A new value aborts the run in flight through `signal`, and a stale result is discarded. The field stays invalid while it is pending.
+
+## Cross-field rules
+
+A validator reads other fields through `ctx.get(path)`, which subscribes it to that field alone. `sameAs` above is built this way: `confirm` revalidates when `password` changes, with no subscription to manage.
 
 ```ts
-import { createFormArray, keyOf } from '@fluixi/forms-core';
-
-const rows = createFormArray([createField('a'), createField('b')]);
-rows.push(createField(''));
-rows.move(0, 2);
-rows.value(); // ['b', '', 'a']
+const notOwnEmail = (value: string, ctx) =>
+  value === ctx.get('email') ? { type: 'same', message: 'Pick another address' } : null;
 ```
 
-### Schema-driven (Zod)
+`when(predicate, validator)` applies a validator only while a condition on other fields holds.
+
+## Arrays
 
 ```ts
-import { z } from 'zod';
-import { createForm, createField } from '@fluixi/forms-core';
-import { zodValidator } from '@fluixi/forms-zod';
+import { createFormArray, createField, keyOf } from '@fluixi/forms';
 
-const Schema = z.object({ email: z.string().email(), age: z.number().min(18) });
+const tags = createFormArray([createField('a'), createField('b')]);
+tags.pushValue('');
+tags.move(0, 2);
+tags.value(); // ['b', '', 'a']
+```
+
+Push, insert, remove and move replace the list rather than mutate it. Render it with a keyed `<For>` and `keyOf(control)`: moved rows keep their DOM nodes and focus. For rows of several fields, pass a `control` factory: `createFormArray([], { control: (row) => createGroup({ ... }) })`.
+
+## Schemas
+
+Any [Standard Schema](https://standardschema.dev) library works without an adapter:
+
+```ts
+import { createForm, createField, standardValidator } from '@fluixi/forms';
+import * as z from 'zod';
+
+const Signup = z.object({ email: z.email(), age: z.number().min(18) });
+
 const form = createForm(
   { email: createField(''), age: createField(0) },
-  { validators: [zodValidator(Schema)] }, // group-level; errors routed by meta.path
+  { validators: [standardValidator(Signup)] },
 );
 ```
 
-### JSX (Fluixi)
+Errors carry `meta.path`, so a form-level schema still reports each error on its field.
+
+The Zod and Valibot packages add a few helpers:
+
+- `fromZod(schema, initial)` builds a typed form from an object schema, one field per key.
+- `zodErrorsByPath` and `valibotErrorsByPath` group errors by dotted path.
+- `valibotValidator(safeParse, schema)` takes Valibot's `safeParse`, so the package does not import Valibot itself.
+
+## JSX
 
 ```tsx
-import { Field, bindField } from '@fluixi/forms-framework';
+import { Field } from '@fluixi/forms';
 
 <Field control={form.get('email')}>
-  {(b, f) => (
+  {(b, field) => (
     <label>
+      Email
       <input value={b.value()} onInput={b.onInput} onBlur={b.onBlur} aria-invalid={b['aria-invalid']()} />
-      <Show when={f.touched() && f.error()}>{e => <span class="err">{e().message}</span>}</Show>
+      <Show when={field.touched() && field.error()}>{(e) => <span>{e().message}</span>}</Show>
     </label>
   )}
 </Field>
 ```
 
-## Implementation roadmap
+`bindField(field)` returns the same bindings without the component, `bindCheckbox` binds a boolean field, and `use:model={field}` is the directive form. With [fluixi-ui](https://ui.fluixi.com), use its `Form` and `FormField` components.
 
-1. **forms-core** — primitives + sync/async validation + array/group. ✅ (working, 7 tests)
-2. **forms-framework** — `bindField`/`<Field>`/`use:model`. ✅ scaffolded
-3. **forms-zod / forms-valibot** — schema → validators + typed inference. ✅ scaffolded
-4. **forms-devtools** — snapshot/watch/flatten. ✅ scaffolded
-5. Schema-to-form *generation* (`fromZod(schema)` → a typed `createForm`).
-6. `@fluixi/forms-babel` compiler plugin (binding/validator/dependency optimizations).
-7. Field-level error routing helper (map group `zodErrorsByPath` onto child fields).
-8. Devtools UI panel + dependency/validation graph rendering.
+## Devtools
 
-## Testing strategy
+`snapshot(control)` reads the whole tree without subscribing to it. `watch(control, cb)` calls `cb` with a new snapshot on every change, and `flatten(control)` lists every control with its path for an inspector table.
 
-- **Unit (vitest)** — each primitive: value/validity/touched/dirty, reset, cross-field,
-  async pending→resolve, array ops, submit gating. (`forms-core/src/forms.spec.ts`.)
-- **Reactivity assertions** — count memo executions to prove a keystroke in field A does NOT
-  recompute field B (granularity guarantee).
-- **Adapter conformance** — schema validators produce the same errors as the schema lib.
-- **Integration (jsdom)** — `<Field>` wiring: input → value, blur → touched, no cross-field
-  re-render.
+## How it works
 
-## Benchmark strategy
+A control is a set of signals and memos, never a snapshot object:
 
-- **Throughput** — N independent fields; measure ms to mutate one (target: flat vs N).
-- **Wide patch** — `patchValue` over k fields; assert one propagation pass (batch).
-- **Array churn** — 1000-row array push/move/remove; measure DOM ops with keyed render.
-- **Memory** — heap per field at N = 1k/10k. Compare with/without compiler hoisting.
-- Baselines: Angular Reactive Forms, React Hook Form, Formik, SolidJS `createStore` forms.
+| Control | Holds | Derives |
+| --- | --- | --- |
+| `createField` | value, touched, disabled, async errors, pending | sync errors, errors, valid, dirty |
+| `createGroup`, `createForm` | its controls, disabled, submit count | value, errors, valid, dirty, pending |
+| `createFormArray` | the ordered list, disabled | value, errors, valid, length |
 
-## Comparison
+- Validation is a memo. It runs when it is read and one of its inputs changed, so a 5,000-field form costs nothing while idle.
+- Each field with async validators gets one debounced effect. Fields without them get none.
+- Every mutation is batched: `patch` over fifty fields propagates once.
 
-| | Angular RF | React Hook Form | SolidJS (store) | **@fluixi/forms** |
-| --- | --- | --- | --- | --- |
-| Reactivity | RxJS Observables | re-render + refs | store proxy | **fine-grained signals** |
-| Per-field updates | coarse (valueChanges) | uncontrolled/refs | proxy-path | **independent memos** |
-| Re-render model | zone.js CD | minimize re-renders | granular | **no re-render — pull/lazy** |
-| Async validation | AsyncValidator + RxJS | manual | manual | **debounced effect + AbortController** |
-| Cross-field deps | manual subscribe | watch() | effect | **ctx.get path → precise subscription** |
-| Schema | — | resolver (zod/yup) | — | **zod/valibot adapters, typed** |
-| Type safety | partial | good | good | **GroupValue/PartialDeep/Path inference** |
-| Big forms (10k) | heavy (CD) | good | good | **idle ≈ 0 (lazy memos)** |
+## Packages
+
+`@fluixi/forms` re-exports everything below. Import a subpath, such as `@fluixi/forms/core` or `@fluixi/forms/zod`, to take one piece.
+
+| Package | |
+| --- | --- |
+| [`@fluixi/forms-core`](https://github.com/fluixi/forms/tree/alpha/packages/forms-core) | Fields, groups, forms, arrays, validators and Standard Schema support. |
+| [`@fluixi/forms-framework`](https://github.com/fluixi/forms/tree/alpha/packages/forms-framework) | JSX bindings: `bindField`, `<Field>`, `use:model`. |
+| [`@fluixi/forms-zod`](https://github.com/fluixi/forms/tree/alpha/packages/forms-zod) | Zod validators and `fromZod`. |
+| [`@fluixi/forms-valibot`](https://github.com/fluixi/forms/tree/alpha/packages/forms-valibot) | Valibot validators. |
+| [`@fluixi/forms-devtools`](https://github.com/fluixi/forms/tree/alpha/packages/forms-devtools) | Snapshots and change feeds for inspectors. |
+
+## Contributing
+
+```sh
+pnpm install
+pnpm build
+pnpm test
+pnpm typecheck
 ```
+
+Add a changeset with `pnpm changeset` for any change to a published package. See the [contributing guide](https://github.com/fluixi/.github/blob/main/CONTRIBUTING.md).
+
+## License
+
+[MIT](https://github.com/fluixi/forms/blob/alpha/LICENSE) © Ibrahima Touré

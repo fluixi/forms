@@ -1,8 +1,8 @@
 # @fluixi/forms-core
 
-The core reactive engine — `createField`/`createGroup`/`createForm`/`createFormArray`, validators, and the sync+async validation engine. Every field is an independent reactive cell (no RxJS, no central store, no proxies).
+Fields, groups, forms and arrays, with sync and async validation, built-in validators and Standard Schema support. Every field is its own reactive cell.
 
-Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms) — reactive forms for fine-grained signal frameworks.
+Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms), reactive forms for Fluixi.
 
 ## Install
 

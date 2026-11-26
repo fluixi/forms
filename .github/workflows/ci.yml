@@ -32,7 +32,7 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      # @fluixi/reactive is read from public npm — no auth needed for install.
+      # @fluixi/reactive is read from public npm; no auth needed for install.
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

@@ -1,8 +1,8 @@
 # @fluixi/forms-devtools
 
-An untracked tree inspector + `watch()` for debugging `@fluixi/forms-core` forms without disturbing reactivity.
+Inspect `@fluixi/forms-core` forms without subscribing to them: `snapshot`, `watch` and `flatten`.
 
-Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms) — reactive forms for fine-grained signal frameworks.
+Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms), reactive forms for Fluixi.
 
 ## Install
 

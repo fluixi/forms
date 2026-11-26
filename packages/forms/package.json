@@ -2,7 +2,7 @@
   "name": "@fluixi/forms",
   "version": "1.0.0-alpha.113",
   "license": "MIT",
-  "description": "Umbrella package — re-exports all @fluixi/forms-* packages (core, framework, zod, valibot, devtools).",
+  "description": "Reactive forms for Fluixi: re-exports every @fluixi/forms-* package (core, framework, zod, valibot, devtools).",
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",

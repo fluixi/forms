@@ -1,8 +1,8 @@
 # @fluixi/forms-zod
 
-Turn a [Zod](https://zod.dev) schema into `@fluixi/forms-core` validators — typed, with errors reported by path.
+Turn a [Zod](https://zod.dev) schema into `@fluixi/forms-core` validators, with errors reported by path, or build a typed form from it with `fromZod`.
 
-Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms) — reactive forms for fine-grained signal frameworks.
+Part of [`@fluixi/forms`](https://www.npmjs.com/package/@fluixi/forms), reactive forms for Fluixi.
 
 ## Install
 
