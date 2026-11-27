@@ -157,14 +157,7 @@ A control is a set of signals and memos, never a snapshot object:
 
 ## Contributing
 
-```sh
-pnpm install
-pnpm build
-pnpm test
-pnpm typecheck
-```
-
-Add a changeset with `pnpm changeset` for any change to a published package. See the [contributing guide](https://github.com/fluixi/.github/blob/main/CONTRIBUTING.md).
+The source, issues and contributing guide are on [GitHub](https://github.com/fluixi/forms).
 
 ## License
 
