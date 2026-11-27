@@ -1,5 +1,11 @@
 # @fluixi/forms-core
 
+## 1.0.0-alpha.114
+
+### Patch Changes
+
+- 3378279: The READMEs now include peer installation instructions, a usage example for each package, and credit the license holder Ibrahima Touré.
+
 ## 1.0.0-alpha.113
 
 ### Patch Changes
